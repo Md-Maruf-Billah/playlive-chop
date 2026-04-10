@@ -5,120 +5,108 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
 <title>Playlive Melbourne — Chop Calculator</title>
 <style>
-  * { box-sizing: border-box; margin: 0; padding: 0; }
-  body { font-family: 'Segoe UI', Arial, sans-serif; background: #111; color: #fff; min-height: 100vh; }
+* { box-sizing: border-box; margin: 0; padding: 0; }
+body { font-family: 'Segoe UI', Arial, sans-serif; background: #0f0f0f; color: #fff; min-height: 100vh; }
 
-  header { background: #C0392B; padding: 0; }
-  .header-top { background: #C0392B; height: 6px; }
-  .header-main { background: #1A1A1A; padding: 18px 20px 14px; text-align: center; }
-  .header-main h1 { font-size: 22px; font-weight: 700; color: #fff; letter-spacing: 1px; }
-  .header-main p { font-size: 13px; color: #C0392B; font-style: italic; margin-top: 4px; }
-  .header-bot { background: #C0392B; height: 6px; }
+.header-bar { background: #C0392B; height: 6px; }
+.header-main { background: #1A1A1A; padding: 20px 20px 16px; text-align: center; border-bottom: 3px solid #C0392B; }
+.header-main h1 { font-size: 24px; font-weight: 700; color: #fff; letter-spacing: 2px; }
+.header-main p { font-size: 12px; color: #C0392B; font-style: italic; margin-top: 5px; }
 
-  .container { max-width: 520px; margin: 0 auto; padding: 20px 16px 40px; }
+.container { max-width: 540px; margin: 0 auto; padding: 18px 14px 40px; }
 
-  .section { background: #1E1E1E; border-radius: 10px; margin-bottom: 20px; overflow: hidden; }
-  .section-header { background: #1A1A1A; border-left: 4px solid #C0392B; padding: 12px 16px; }
-  .section-header h2 { font-size: 13px; font-weight: 700; color: #C0392B; letter-spacing: 0.5px; text-transform: uppercase; }
-  .section-body { padding: 14px 16px; }
+.section { background: #1C1C1C; border-radius: 10px; margin-bottom: 16px; overflow: hidden; border: 1px solid #2a2a2a; }
+.section-header { background: #151515; border-left: 4px solid #C0392B; padding: 11px 14px; }
+.section-header h2 { font-size: 11px; font-weight: 700; color: #C0392B; letter-spacing: 0.8px; text-transform: uppercase; }
+.section-body { padding: 14px; }
 
-  .field { margin-bottom: 14px; }
-  .field:last-child { margin-bottom: 0; }
-  label { display: block; font-size: 12px; color: #999; margin-bottom: 5px; font-weight: 600; letter-spacing: 0.3px; text-transform: uppercase; }
-  input[type="text"], input[type="number"] {
-    width: 100%; background: #111; border: 1px solid #333; border-radius: 6px;
-    padding: 12px 14px; font-size: 16px; color: #fff; outline: none;
-    -webkit-appearance: none; appearance: none;
-  }
-  input[type="text"]:focus, input[type="number"]:focus { border-color: #C0392B; }
-  input[type="number"] { text-align: right; }
-  input::placeholder { color: #555; }
+.field { margin-bottom: 12px; }
+.field:last-child { margin-bottom: 0; }
+label { display: block; font-size: 11px; color: #777; margin-bottom: 5px; font-weight: 700; letter-spacing: 0.4px; text-transform: uppercase; }
+input[type="text"], input[type="number"] {
+  width: 100%; background: #111; border: 1px solid #2e2e2e; border-radius: 7px;
+  padding: 11px 13px; font-size: 16px; color: #fff; outline: none;
+  -webkit-appearance: none; transition: border-color 0.2s;
+}
+input:focus { border-color: #C0392B; }
+input::placeholder { color: #444; }
 
-  .row2 { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
-  .row3 { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 8px; }
+.grid2 { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
 
-  .player-row { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 8px; align-items: end; margin-bottom: 10px; }
-  .player-row:last-child { margin-bottom: 0; }
-  .player-num { font-size: 11px; color: #666; margin-bottom: 4px; }
+.payout-row { display: grid; grid-template-columns: 90px 1fr; gap: 8px; margin-bottom: 8px; align-items: center; }
+.payout-row:last-child { margin-bottom: 0; }
+.place-badge { font-size: 12px; font-weight: 700; color: #C0392B; text-align: center; background: #1f1f1f; border-radius: 6px; padding: 10px 6px; border: 1px solid #2a2a2a; }
 
-  .add-remove { display: flex; gap: 8px; margin-top: 12px; }
-  .btn-sm { flex: 1; padding: 10px; border-radius: 6px; font-size: 13px; font-weight: 700; border: none; cursor: pointer; }
-  .btn-add { background: #C0392B; color: #fff; }
-  .btn-rem { background: #2a2a2a; color: #999; border: 1px solid #333; }
-  .btn-add:active { opacity: 0.8; }
-  .btn-rem:active { opacity: 0.8; }
+.pool-total { display: flex; justify-content: space-between; align-items: center; background: #C0392B; border-radius: 8px; padding: 12px 16px; margin-top: 14px; }
+.pool-total span { font-size: 12px; font-weight: 700; color: rgba(255,255,255,0.75); }
+.pool-total strong { font-size: 20px; font-weight: 700; color: #fff; }
 
-  .col-labels { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 8px; margin-bottom: 6px; }
-  .col-label { font-size: 10px; color: #666; text-align: center; font-weight: 600; text-transform: uppercase; letter-spacing: 0.3px; }
-  .col-label:first-child { text-align: left; }
+.col-labels { display: grid; grid-template-columns: 2fr 1.2fr 1.2fr; gap: 8px; margin-bottom: 6px; padding: 0 2px; }
+.col-lbl { font-size: 10px; color: #555; font-weight: 700; text-transform: uppercase; letter-spacing: 0.3px; text-align: center; }
+.col-lbl:first-child { text-align: left; }
 
-  .adj-note { font-size: 11px; color: #666; margin-top: 8px; line-height: 1.5; }
-  .adj-note span { color: #C0392B; }
+.player-row { display: grid; grid-template-columns: 2fr 1.2fr 1.2fr; gap: 8px; margin-bottom: 8px; }
+.player-row:last-child { margin-bottom: 0; }
 
-  .results { display: none; }
-  .results.visible { display: block; }
-  .result-row { display: flex; justify-content: space-between; align-items: center; padding: 12px 0; border-bottom: 1px solid #2a2a2a; }
-  .result-row:last-child { border-bottom: none; }
-  .result-name { font-size: 15px; font-weight: 600; color: #fff; }
-  .result-sub { font-size: 11px; color: #666; margin-top: 2px; }
-  .result-amount { font-size: 20px; font-weight: 700; color: #C0392B; }
-  .result-amount.adjusted { color: #E8C870; }
+.adj-hint { font-size: 10px; color: #555; margin-top: 10px; line-height: 1.5; text-align: center; }
+.adj-hint span { color: #C0392B; }
 
-  .total-bar { background: #C0392B; border-radius: 8px; padding: 14px 16px; display: flex; justify-content: space-between; align-items: center; margin-top: 14px; }
-  .total-bar span { font-size: 13px; font-weight: 700; color: rgba(255,255,255,0.8); }
-  .total-bar strong { font-size: 20px; font-weight: 700; color: #fff; }
+.btn-row { display: flex; gap: 8px; margin-top: 14px; }
+.btn-add { flex: 1; padding: 11px; background: #C0392B; color: #fff; border: none; border-radius: 7px; font-size: 13px; font-weight: 700; cursor: pointer; }
+.btn-rem { flex: 1; padding: 11px; background: #222; color: #888; border: 1px solid #2e2e2e; border-radius: 7px; font-size: 13px; font-weight: 700; cursor: pointer; }
 
-  .submit-btn {
-    width: 100%; padding: 16px; background: #C0392B; color: #fff;
-    font-size: 17px; font-weight: 700; border: none; border-radius: 10px;
-    cursor: pointer; margin-top: 8px; letter-spacing: 0.5px;
-  }
-  .submit-btn:disabled { background: #444; color: #666; cursor: not-allowed; }
-  .submit-btn:not(:disabled):active { opacity: 0.85; }
+.results-section { display: none; }
+.results-section.visible { display: block; }
 
-  .status { text-align: center; padding: 14px; border-radius: 8px; font-size: 14px; font-weight: 600; margin-top: 12px; display: none; }
-  .status.sending { background: #2a2a2a; color: #999; display: block; }
-  .status.success { background: #1a3a1a; color: #4CAF50; display: block; }
-  .status.error { background: #3a1a1a; color: #E57373; display: block; }
+.result-item { display: flex; justify-content: space-between; align-items: flex-start; padding: 12px 0; border-bottom: 1px solid #222; }
+.result-item:last-child { border-bottom: none; }
+.result-name { font-size: 15px; font-weight: 700; color: #fff; }
+.result-detail { font-size: 11px; color: #666; margin-top: 3px; }
+.result-adj { font-size: 11px; color: #e67e22; margin-top: 2px; font-weight: 600; }
+.result-amount { font-size: 22px; font-weight: 700; color: #2ecc71; }
+.result-base { font-size: 11px; color: #555; text-align: right; margin-top: 2px; }
 
+.grand-total { background: #C0392B; border-radius: 8px; padding: 14px 16px; display: flex; justify-content: space-between; align-items: center; margin-top: 14px; }
+.grand-total span { font-size: 12px; font-weight: 700; color: rgba(255,255,255,0.8); }
+.grand-total strong { font-size: 22px; font-weight: 700; color: #fff; }
 
+.submit-btn { width: 100%; padding: 16px; background: #C0392B; color: #fff; font-size: 16px; font-weight: 700; border: none; border-radius: 10px; cursor: pointer; margin-top: 8px; letter-spacing: 0.5px; }
+.submit-btn:disabled { background: #333; color: #555; cursor: not-allowed; }
 
-
-
-  .preview-header { font-size: 11px; color: #666; font-weight: 700; text-transform: uppercase; letter-spacing: 0.5px; margin-bottom: 10px; }
+.status-msg { text-align: center; padding: 13px; border-radius: 8px; font-size: 13px; font-weight: 600; margin-top: 10px; display: none; }
+.status-msg.sending { background: #222; color: #888; display: block; }
+.status-msg.success { background: #0d2e0d; color: #2ecc71; display: block; }
+.status-msg.error   { background: #2e0d0d; color: #e74c3c; display: block; }
 </style>
 </head>
 <body>
 
-<header>
-  <div class="header-top"></div>
-  <div class="header-main">
-    <h1>PLAYLIVE MELBOURNE</h1>
-    <p>Tournament Chop Calculator</p>
-  </div>
-  <div class="header-bot"></div>
-</header>
+<div class="header-bar"></div>
+<div class="header-main">
+  <h1>PLAYLIVE MELBOURNE</h1>
+  <p>Tournament Chop Calculator — ICM Method</p>
+</div>
 
 <div class="container">
 
-  <!-- STEP 1: TOURNAMENT INFO -->
+  <!-- Tournament Info -->
   <div class="section">
-    <div class="section-header"><h2>Step 1 — Tournament Info</h2></div>
+    <div class="section-header"><h2>Tournament Info</h2></div>
     <div class="section-body">
-      <div class="row2">
+      <div class="grid2">
         <div class="field">
           <label>Tournament Name</label>
           <input type="text" id="tournamentName" placeholder="e.g. Friday Night MTT">
         </div>
         <div class="field">
-          <label>Table / Room</label>
-          <input type="text" id="tableNum" placeholder="e.g. Table 3">
+          <label>Table</label>
+          <input type="text" id="tableNum" placeholder="Table 3">
         </div>
       </div>
-      <div class="row2">
+      <div class="grid2">
         <div class="field">
           <label>Date</label>
-          <input type="text" id="date" placeholder="DD/MM/YYYY">
+          <input type="text" id="dateField">
         </div>
         <div class="field">
           <label>Supervisor</label>
@@ -128,237 +116,285 @@
     </div>
   </div>
 
-  <!-- STEP 2: PAYOUTS -->
+  <!-- Payouts -->
   <div class="section">
-    <div class="section-header"><h2>Step 2 — Payouts (places being chopped)</h2></div>
+    <div class="section-header"><h2>Step 1 — Prize Per Place</h2></div>
     <div class="section-body">
-      <div class="col-labels">
-        <div class="col-label">Place</div>
-        <div class="col-label" style="text-align:center;">Prize ($)</div>
-        <div class="col-label"></div>
+      <div id="payoutRows"></div>
+      <div class="pool-total">
+        <span>TOTAL PRIZE POOL</span>
+        <strong id="poolDisplay">$0</strong>
       </div>
-      <div id="payoutRows">
-        <div class="player-row">
-          <input type="text" value="1st Place" readonly style="color:#666; font-size:14px; padding:10px 10px;">
-          <input type="number" class="payout-amt" placeholder="0" min="0">
-          <div></div>
-        </div>
-        <div class="player-row">
-          <input type="text" value="2nd Place" readonly style="color:#666; font-size:14px; padding:10px 10px;">
-          <input type="number" class="payout-amt" placeholder="0" min="0">
-          <div></div>
-        </div>
-        <div class="player-row">
-          <input type="text" value="3rd Place" readonly style="color:#666; font-size:14px; padding:10px 10px;">
-          <input type="number" class="payout-amt" placeholder="0" min="0">
-          <div></div>
-        </div>
-      </div>
-      <div id="totalPool" style="text-align:right; font-size:13px; color:#666; margin-top:10px;">Total pool: <strong style="color:#C0392B;">$0</strong></div>
     </div>
   </div>
 
-  <!-- STEP 3: PLAYERS -->
+  <!-- Players -->
   <div class="section">
-    <div class="section-header"><h2>Step 3 — Players</h2></div>
+    <div class="section-header"><h2>Step 2 — Player Chips &amp; Adjustments</h2></div>
     <div class="section-body">
       <div class="col-labels">
-        <div class="col-label">Name</div>
-        <div class="col-label">Chips</div>
-        <div class="col-label">Adjustment ($)</div>
+        <div class="col-lbl">Name</div>
+        <div class="col-lbl">Chips</div>
+        <div class="col-lbl">Adjust ($)</div>
       </div>
       <div id="playerRows"></div>
-      <div class="adj-note">Adjustment: enter <span>+100</span> or <span>-50</span> to add or subtract from a player's base chop (e.g. chip leader bonus, last longer, side deal).</div>
-      <div class="add-remove">
-        <button class="btn-sm btn-add" onclick="addPlayer()">+ Add Player</button>
-        <button class="btn-sm btn-rem" onclick="removePlayer()">− Remove</button>
+      <div class="adj-hint">
+        Adjustment: <span>+100</span> = bonus &nbsp;|&nbsp; <span>-50</span> = deduction
+      </div>
+      <div class="btn-row">
+        <button class="btn-add" onclick="addPlayer()">+ Add Player</button>
+        <button class="btn-rem" onclick="removePlayer()">&#8722; Remove</button>
       </div>
     </div>
   </div>
 
-  <!-- LIVE RESULTS -->
-  <div class="section results" id="resultsSection">
-    <div class="section-header"><h2>Chop Results</h2></div>
+  <!-- Results -->
+  <div class="section results-section" id="resultsSection">
+    <div class="section-header"><h2>ICM Chop Results</h2></div>
     <div class="section-body">
-      <div class="preview-header">Each player receives:</div>
       <div id="resultList"></div>
-      <div class="total-bar">
-        <span>Total paid out</span>
-        <strong id="resultTotal">$0</strong>
+      <div class="grand-total">
+        <span>TOTAL PAID OUT</span>
+        <strong id="grandTotal">$0</strong>
       </div>
     </div>
   </div>
 
-  <!-- SUBMIT -->
   <button class="submit-btn" id="submitBtn" onclick="submitToSheets()">
     Send to Google Sheets &amp; Print Slip
   </button>
-  <div class="status" id="statusMsg"></div>
+  <div class="status-msg" id="statusMsg"></div>
 
 </div>
 
 <script>
-  let playerCount = 0;
-  const places = ['1st','2nd','3rd','4th','5th','6th','7th','8th','9th'];
+var SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbxNliHJcQyUfHF0uz2c1vhV0v75-kq3GQXqN82hDQDBhMKgR2VSpCLST5MgVsyUzfp8/exec';
+var PLACE_NAMES = ['1st Place','2nd Place','3rd Place','4th Place','5th Place','6th Place'];
+var playerCount = 0;
+var lastResult  = null;
 
-  function addPlayer() {
-    if (playerCount >= 9) return;
-    const idx = playerCount;
-    const div = document.createElement('div');
-    div.className = 'player-row';
-    div.id = `prow-${idx}`;
-    div.innerHTML = `
-      <input type="text" id="pname-${idx}" placeholder="Player ${idx+1}" oninput="recalc()">
-      <input type="number" id="pchips-${idx}" placeholder="0" min="0" oninput="recalc()">
-      <input type="number" id="padj-${idx}" placeholder="0" oninput="recalc()">
-    `;
-    document.getElementById('playerRows').appendChild(div);
-    playerCount++;
-    recalc();
+function buildPayouts() {
+  var container = document.getElementById('payoutRows');
+  container.innerHTML = '';
+  var i, div;
+  for (i = 0; i < 6; i++) {
+    div = document.createElement('div');
+    div.className = 'payout-row';
+    div.innerHTML =
+      '<div class="place-badge">' + PLACE_NAMES[i] + '</div>' +
+      '<input type="number" class="payout-amt" id="payout-' + i + '" placeholder="0" min="0" oninput="recalc()">';
+    container.appendChild(div);
   }
+}
 
-  function removePlayer() {
-    if (playerCount <= 1) return;
-    playerCount--;
-    const el = document.getElementById(`prow-${playerCount}`);
-    if (el) el.remove();
-    recalc();
-  }
+function addPlayer() {
+  if (playerCount >= 9) { return; }
+  var i = playerCount;
+  var div = document.createElement('div');
+  div.className = 'player-row';
+  div.id = 'prow-' + i;
+  div.innerHTML =
+    '<input type="text"   id="pname-'  + i + '" placeholder="Player ' + (i + 1) + '" oninput="recalc()">' +
+    '<input type="number" id="pchips-' + i + '" placeholder="0" min="0" oninput="recalc()">' +
+    '<input type="number" id="padj-'   + i + '" placeholder="0" oninput="recalc()">';
+  document.getElementById('playerRows').appendChild(div);
+  playerCount++;
+  recalc();
+}
 
-  function getPool() {
-    let total = 0;
-    document.querySelectorAll('.payout-amt').forEach(i => { total += parseFloat(i.value) || 0; });
-    return total;
-  }
+function removePlayer() {
+  if (playerCount <= 1) { return; }
+  playerCount--;
+  var el = document.getElementById('prow-' + playerCount);
+  if (el) { el.parentNode.removeChild(el); }
+  recalc();
+}
 
-  function getTotalChips() {
-    let total = 0;
-    for (let i = 0; i < playerCount; i++) {
-      total += parseFloat(document.getElementById(`pchips-${i}`)?.value) || 0;
-    }
-    return total;
-  }
+function calcICM(stacks, payouts) {
+  var n = stacks.length;
+  var p = payouts.length;
+  var equity = [];
+  var i, j, depth, mask, newMask;
+  var remTotal, prob;
 
-  function recalc() {
-    const pool = getPool();
-    document.getElementById('totalPool').innerHTML = `Total pool: <strong style="color:#C0392B;">$${Math.round(pool).toLocaleString()}</strong>`;
+  for (i = 0; i < n; i++) { equity.push(0); }
+  if (n === 0 || p === 0) { return equity; }
 
-    const totalChips = getTotalChips();
-    const resultList = document.getElementById('resultList');
-    resultList.innerHTML = '';
+  var total = 0;
+  for (i = 0; i < n; i++) { total += stacks[i]; }
+  if (total === 0) { return equity; }
 
-    let anyPlayer = false;
-    let grandTotal = 0;
+  var size = 1 << n;
+  var probs = [];
+  var next  = [];
+  for (i = 0; i < size; i++) { probs.push(0); next.push(0); }
+  probs[0] = 1.0;
 
-    for (let i = 0; i < playerCount; i++) {
-      const nameEl  = document.getElementById(`pname-${i}`);
-      const chipsEl = document.getElementById(`pchips-${i}`);
-      const adjEl   = document.getElementById(`padj-${i}`);
-      if (!nameEl) continue;
+  var places = Math.min(p, n);
 
-      const name  = nameEl.value || `Player ${i+1}`;
-      const chips = parseFloat(chipsEl.value) || 0;
-      const adj   = parseFloat(adjEl.value) || 0;
+  for (depth = 0; depth < places; depth++) {
+    for (i = 0; i < size; i++) { next[i] = 0; }
+    var prize = payouts[depth];
 
-      if (chips === 0 && pool === 0) continue;
-      anyPlayer = true;
-
-      const baseChop = totalChips > 0 ? (chips / totalChips) * pool : 0;
-      const finalChop = baseChop + adj;
-      grandTotal += finalChop;
-
-      const chipPct = totalChips > 0 ? ((chips / totalChips) * 100).toFixed(1) : '0.0';
-      const adjText = adj !== 0 ? ` ${adj > 0 ? '+' : ''}$${Math.round(Math.abs(adj)).toLocaleString()} adj` : '';
-      const isAdjusted = adj !== 0;
-
-      resultList.innerHTML += `
-        <div class="result-row">
-          <div>
-            <div class="result-name">${name}</div>
-            <div class="result-sub">${chips > 0 ? chipPct+'% chips' : '—'}${adjText}</div>
-          </div>
-          <div class="result-amount ${isAdjusted ? 'adjusted' : ''}">$${Math.round(finalChop).toLocaleString()}</div>
-        </div>`;
-    }
-
-    document.getElementById('resultTotal').textContent = `$${Math.round(grandTotal).toLocaleString()}`;
-    const sec = document.getElementById('resultsSection');
-    if (anyPlayer && pool > 0) sec.classList.add('visible');
-    else sec.classList.remove('visible');
-  }
-
-  function getPayouts() {
-    const rows = ['1st Place','2nd Place','3rd Place'];
-    const amts = [];
-    document.querySelectorAll('.payout-amt').forEach(i => amts.push(parseFloat(i.value) || 0));
-    return { places: rows, amounts: amts };
-  }
-
-  function submitToSheets() {
-    const url = 'https://script.google.com/macros/s/AKfycbxNliHJcQyUfHF0uz2c1vhV0v75-kq3GQXqN82hDQDBhMKgR2VSpCLST5MgVsyUzfp8/exec';
-
-    const pool = getPool();
-    const totalChips = getTotalChips();
-    if (pool === 0) { showStatus('error', 'Please enter at least one payout amount.'); return; }
-    if (playerCount === 0) { showStatus('error', 'Please add at least one player.'); return; }
-
-    const players = [];
-    for (let i = 0; i < playerCount; i++) {
-      const name  = document.getElementById(`pname-${i}`)?.value || `Player ${i+1}`;
-      const chips = parseFloat(document.getElementById(`pchips-${i}`)?.value) || 0;
-      const adj   = parseFloat(document.getElementById(`padj-${i}`)?.value) || 0;
-      const base  = totalChips > 0 ? (chips / totalChips) * pool : 0;
-      const final = base + adj;
-      players.push({ name, chips, chipPct: totalChips > 0 ? (chips/totalChips*100).toFixed(2) : 0, baseChop: Math.round(base), adjustment: adj, finalChop: Math.round(final) });
+    for (mask = 0; mask < size; mask++) {
+      if (probs[mask] === 0) { continue; }
+      remTotal = 0;
+      for (j = 0; j < n; j++) {
+        if (!(mask >> j & 1)) { remTotal += stacks[j]; }
+      }
+      if (remTotal === 0) { continue; }
+      for (j = 0; j < n; j++) {
+        if (mask >> j & 1) { continue; }
+        prob = (probs[mask] * stacks[j]) / remTotal;
+        equity[j] += prob * prize;
+        newMask = mask | (1 << j);
+        next[newMask] += prob;
+      }
     }
 
-    const payoutAmts = [];
-    document.querySelectorAll('.payout-amt').forEach(i => payoutAmts.push(parseFloat(i.value)||0));
+    for (i = 0; i < size; i++) { probs[i] = next[i]; }
+  }
 
-    const payload = {
-      tournamentName: document.getElementById('tournamentName').value,
-      table: document.getElementById('tableNum').value,
-      date: document.getElementById('date').value,
-      supervisor: document.getElementById('supervisor').value,
-      totalPool: pool,
-      payouts: payoutAmts,
-      players
-    };
+  return equity;
+}
 
-    const btn = document.getElementById('submitBtn');
-    btn.disabled = true;
-    showStatus('sending', 'Sending to Google Sheets...');
+function recalc() {
+  var i, v, el;
+  var payouts   = [];
+  var totalPool = 0;
 
-    fetch(url, {
-      method: 'POST',
-      mode: 'no-cors',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify(payload)
-    })
-    .then(() => {
-      showStatus('success', '✓ Sent! Open your Google Sheet to print the Chop Slip.');
-      btn.disabled = false;
-    })
-    .catch(err => {
-      showStatus('error', 'Could not reach Google Sheets. Check your Script URL.');
-      btn.disabled = false;
+  for (i = 0; i < 6; i++) {
+    el = document.getElementById('payout-' + i);
+    if (!el) { continue; }
+    v = parseFloat(el.value) || 0;
+    if (v > 0) { payouts.push(v); totalPool += v; }
+  }
+
+  document.getElementById('poolDisplay').textContent = '$' + Math.round(totalPool).toLocaleString();
+
+  var players = [];
+  for (i = 0; i < playerCount; i++) {
+    var nameEl  = document.getElementById('pname-'  + i);
+    var chipEl  = document.getElementById('pchips-' + i);
+    var adjEl   = document.getElementById('padj-'   + i);
+    if (!nameEl || !chipEl) { continue; }
+    var chips = parseFloat(chipEl.value) || 0;
+    if (chips <= 0) { continue; }
+    players.push({
+      name:  nameEl.value || ('Player ' + (i + 1)),
+      chips: chips,
+      adj:   parseFloat(adjEl ? adjEl.value : 0) || 0
     });
   }
 
-  function showStatus(type, msg) {
-    const el = document.getElementById('statusMsg');
-    el.className = `status ${type}`;
-    el.textContent = msg;
+  if (players.length === 0 || totalPool === 0) {
+    document.getElementById('resultsSection').classList.remove('visible');
+    lastResult = null;
+    return;
   }
 
-  document.querySelectorAll('.payout-amt').forEach(i => i.addEventListener('input', recalc));
+  var stacks = [];
+  for (i = 0; i < players.length; i++) { stacks.push(players[i].chips); }
 
-  // Pre-fill today's date
-  const today = new Date();
-  document.getElementById('date').value = `${String(today.getDate()).padStart(2,'0')}/${String(today.getMonth()+1).padStart(2,'0')}/${today.getFullYear()}`;
+  var firstPrize = payouts[0] || 0;
+  var icm = calcICM(stacks, payouts);
 
-  // Start with 3 players
-  addPlayer(); addPlayer(); addPlayer();
+  var totalChips = 0;
+  for (i = 0; i < stacks.length; i++) { totalChips += stacks[i]; }
+
+  var html       = '';
+  var grandTotal = 0;
+  var resultPlayers = [];
+  var p, base, final, chipPct, adjText;
+
+  for (i = 0; i < players.length; i++) {
+    p        = players[i];
+    base     = icm[i] > firstPrize ? firstPrize : icm[i];
+    final    = base + p.adj;
+    grandTotal += final;
+    chipPct  = totalChips > 0 ? ((p.chips / totalChips) * 100).toFixed(1) : '0.0';
+    adjText  = '';
+    if (p.adj > 0) { adjText = '+$' + Math.round(p.adj).toLocaleString() + ' adjustment'; }
+    else if (p.adj < 0) { adjText = '-$' + Math.round(Math.abs(p.adj)).toLocaleString() + ' adjustment'; }
+
+    html +=
+      '<div class="result-item">' +
+        '<div>' +
+          '<div class="result-name">' + p.name + '</div>' +
+          '<div class="result-detail">' + p.chips.toLocaleString() + ' chips (' + chipPct + '%)</div>' +
+          (adjText ? '<div class="result-adj">' + adjText + '</div>' : '') +
+        '</div>' +
+        '<div style="text-align:right">' +
+          '<div class="result-amount">$' + Math.round(final).toLocaleString() + '</div>' +
+          '<div class="result-base">Base: $' + Math.round(base).toLocaleString() + '</div>' +
+        '</div>' +
+      '</div>';
+
+    resultPlayers.push({
+      name:       p.name,
+      chips:      p.chips,
+      chipPct:    chipPct,
+      baseChop:   Math.round(base),
+      adjustment: p.adj,
+      finalChop:  Math.round(final)
+    });
+  }
+
+  document.getElementById('resultList').innerHTML = html;
+  document.getElementById('grandTotal').textContent = '$' + Math.round(grandTotal).toLocaleString();
+  document.getElementById('resultsSection').classList.add('visible');
+
+  lastResult = {
+    tournamentName: document.getElementById('tournamentName').value,
+    table:          document.getElementById('tableNum').value,
+    date:           document.getElementById('dateField').value,
+    supervisor:     document.getElementById('supervisor').value,
+    totalPool:      totalPool,
+    payouts:        payouts,
+    players:        resultPlayers
+  };
+}
+
+function submitToSheets() {
+  if (!lastResult || lastResult.players.length === 0) {
+    showStatus('error', 'Please fill in player stacks and payouts first.');
+    return;
+  }
+  var btn = document.getElementById('submitBtn');
+  btn.disabled = true;
+  showStatus('sending', 'Sending to Google Sheets...');
+
+  fetch(SCRIPT_URL, {
+    method:  'POST',
+    mode:    'no-cors',
+    headers: { 'Content-Type': 'application/json' },
+    body:    JSON.stringify(lastResult)
+  }).then(function() {
+    showStatus('success', 'Done! Head to reception to print the Chop Slip from Google Sheets.');
+    btn.disabled = false;
+  }).catch(function() {
+    showStatus('error', 'Could not reach Google Sheets. Check your connection and try again.');
+    btn.disabled = false;
+  });
+}
+
+function showStatus(type, msg) {
+  var el = document.getElementById('statusMsg');
+  el.className = 'status-msg ' + type;
+  el.textContent = msg;
+}
+
+// Init
+buildPayouts();
+addPlayer();
+addPlayer();
+addPlayer();
+
+var today = new Date();
+var dd    = String(today.getDate()).padStart(2, '0');
+var mm    = String(today.getMonth() + 1).padStart(2, '0');
+var yyyy  = today.getFullYear();
+document.getElementById('dateField').value = dd + '/' + mm + '/' + yyyy;
 </script>
 </body>
 </html>
